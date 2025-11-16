@@ -2,7 +2,7 @@
 
 @base=http://localhost:8000
 @json=application/json
-@token=20|y4xWD4RXu0vkC19dloofc7Th167rQyMTj71KHxwjd55bcd1f
+@token=12|hnHGua27fNRfqoZInLd6kAlk6rppErSbR5Ur03qd56a5f074
 ### Register
 POST {{base}}/api/auth/register
 Accept: {{json}}
@@ -22,8 +22,8 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "stoltenberg.cicero@gmail.com",
-  "password": "password",
+  "email": "admin@gmail.com",
+  "password": "12345678",
   "device_name": "api"
 }
 ### Login
@@ -32,8 +32,8 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "hunghuy0925@gmail.com",
-  "password": "00000000",
+  "email": "admin@gmail.com",
+  "password": "12345678",
   "device_name": "api"
 }
 
@@ -69,7 +69,7 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "user@gmail.com"
+  "email": "admin@gmail.com"
 }
 
 ### 1b) Non-existing email — 200 OK (generic response, no enumeration)
@@ -78,7 +78,7 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "does-not-exist-123456@example.com"
+  "email": "admin@gmail.com"
 }
 
 ### 1c) Idempotent repeated request — 200 OK (same email twice)
@@ -87,7 +87,7 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "hunghuy0925@gmail.com"
+  "email": "admin@gmail.com"
 }
 ###
 POST {{base}}/api/forgot-password
@@ -95,7 +95,7 @@ Accept: {{json}}
 Content-Type: {{json}}
 
 {
-  "email": "hunghuy0925@gmail.com"
+  "email": "admin@gmail.com"
 }
 
 ### 2) Validation fail — 422 (invalid email)

@@ -1,0 +1,154 @@
+### Kiểm thử HTTP cho cấu hình hệ thống (Admin Configs)
+
+@base=http://localhost:8000
+@json=application/json
+@token=12|hnHGua27fNRfqoZInLd6kAlk6rppErSbR5Ur03qd56a5f074
+
+############################################################
+### 1) DANH SÁCH CONFIGS - GET /api/admin/configs
+############################################################
+
+### 1.1) Đường đi đẹp — lấy danh sách tất cả configs (phân trang mặc định)
+GET {{base}}/api/admin/configs
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 1.2) Đường đi đẹp — tìm kiếm theo config_key hoặc config_value
+GET {{base}}/api/admin/configs?search=max_file_size
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 1.3) Đường đi đẹp — phân trang tuỳ chỉnh
+GET {{base}}/api/admin/configs?page=1&per_page=2
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 1.4) Chưa đăng nhập — 401
+GET {{base}}/api/admin/configs
+Accept: {{json}}
+
+############################################################
+### 2) XEM CHI TIẾT CONFIG - GET /api/admin/configs/{key}
+############################################################
+
+### 2.1) Đường đi đẹp — config_key tồn tại
+GET {{base}}/api/admin/configs/max_file_size
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 2.2) Không tìm thấy — 404
+GET {{base}}/api/admin/configs/non_existing_key_123
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 2.3) Chưa đăng nhập — 401
+GET {{base}}/api/admin/configs/max_file_size
+Accept: {{json}}
+
+############################################################
+### 3) TẠO MỚI CONFIG - POST /api/admin/configs
+############################################################
+
+### 3.1) Đường đi đẹp — tạo mới một config
+POST {{base}}/api/admin/configs
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+  "config_key": "trash_auto_delete_days",
+  "config_value": "30"
+}
+
+### 3.2) Lỗi validate — thiếu field bắt buộc (422)
+POST {{base}}/api/admin/configs
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+}
+
+### 3.3) Lỗi validate — trùng config_key (422)
+### (Giả định `max_file_size` đã tồn tại)
+POST {{base}}/api/admin/configs
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+  "config_key": "max_file_size",
+  "config_value": "104857600"
+}
+
+### 3.4) Chưa đăng nhập — 401
+POST {{base}}/api/admin/configs
+Accept: {{json}}
+Content-Type: {{json}}
+
+{
+  "config_key": "some_config_key",
+  "config_value": "some_value"
+}
+
+############################################################
+### 4) CẬP NHẬT CONFIG - PUT /api/admin/configs/{key}
+############################################################
+
+### 4.1) Đường đi đẹp — cập nhật config đã tồn tại
+PUT {{base}}/api/admin/configs/max_file_size
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+  "config_value": "209715200"
+}
+
+### 4.2) Lỗi validate — thiếu config_value (422)
+PUT {{base}}/api/admin/configs/max_file_size
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+}
+
+### 4.3) Không tìm thấy — 404
+PUT {{base}}/api/admin/configs/non_existing_key_123
+Accept: {{json}}
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+  "config_value": "some_value"
+}
+
+### 4.4) Chưa đăng nhập — 401
+PUT {{base}}/api/admin/configs/max_file_size
+Accept: {{json}}
+Content-Type: {{json}}
+
+{
+  "config_value": "209715200"
+}
+
+############################################################
+### 5) XOÁ CONFIG - DELETE /api/admin/configs/{key}
+############################################################
+
+### 5.1) Đường đi đẹp — xoá config đã tồn tại
+DELETE {{base}}/api/admin/configs/trash_auto_delete_days
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 5.2) Không tìm thấy — 404
+DELETE {{base}}/api/admin/configs/non_existing_key_123
+Accept: {{json}}
+Authorization: Bearer {{token}}
+
+### 5.3) Chưa đăng nhập — 401
+DELETE {{base}}/api/admin/configs/trash_auto_delete_days
+Accept: {{json}}
+
+
