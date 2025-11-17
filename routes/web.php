@@ -16,3 +16,8 @@ Route::get('/password/reset/{token}', function ($token) {
     }
     return redirect()->away($url);
 })->name('password.reset');
+
+// Swagger docs shortcut
+Route::get('/docs', function () {
+    return redirect('/api/documentation');
+});

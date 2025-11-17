@@ -1,0 +1,45 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cloud Storage API",
+        "description": "OpenAPI documentation for the Cloud Storage backend.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "API server"
+        }
+    ],
+    "paths": {
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health check",
+                "operationId": "098b534ccd88b836392ca6fac0f2bc9b",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Health",
+            "description": "Health"
+        }
+    ]
+}
